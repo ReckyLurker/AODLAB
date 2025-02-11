@@ -48,8 +48,6 @@ weight_estimation;
 stall_speed;
 drag_estimation;
 
-%{
-
 % Thrust/Weight Ratio
 TW_cruise = 1/LD_cruise_est;
 
@@ -64,26 +62,26 @@ CL_max_flapped = 2.0;
 AreaRatioUnflapped = 0.65; % S_unflapped / S_planform
 AreaRatioFlapped = 0.35; % S_flapped / S_planform 
 
-CL_max_with_flaps = 0.9*(CL_max*AreaRatioUnflapped + CL_max_flapped*AreaRatioFlapped);
-v_stall_with_flaps = sqrt((2*MaximumTakeoffWeight_est*g)/(Rho_sealevel*CL_max_with_flaps*PlanformArea_wing));
+CL_max_with_flaps = CL_max_no_flaps*AreaRatioUnflapped + 0.9*(CL_max_flapped*AreaRatioFlapped);
+v_stall_with_flaps = sqrt((2*MaximumTakeoffWeight*g)/(rho_0ft*CL_max_with_flaps*PlanformArea_wing));
 
 fprintf('Stall Speed with flaps: %.6f\n', v_stall_with_flaps);
 
-v_approach = 1.3*v_stall;
+v_approach = 1.3*v_stall_no_flaps;
 v_approach_with_flaps = 1.3*v_stall_with_flaps;
 
 fprintf('Approach Speed: %.6f\n', v_approach);
 fprintf('Approach Speed with flaps: %.6f\n', v_approach_with_flaps);
 
-WS_stall_speed_with_flaps = 0.5*Rho_sealevel*CL_max_with_flaps*v_stall_with_flaps^2;
-WS_stall_speed = 0.5*Rho_sealevel*0.9*CL_max*v_stall^2;
+WS_stall_speed_with_flaps = 0.5*rho_0ft*CL_max_with_flaps*v_stall_with_flaps^2;
+WS_stall_speed = 0.5*rho_0ft*CL_max_no_flaps*v_stall_no_flaps^2;
 
 fprintf('\nW/S Estimation:\n');
 fprintf('(1) W/S from stall speed with flaps: %.6f N/m^2 = %.6f kg/m^2\n', WS_stall_speed_with_flaps, WS_stall_speed_with_flaps/g);
 fprintf('(2) W/S from stall speed without flaps: %.6f N/m^2 = %.6f kg/m^2\n', WS_stall_speed, WS_stall_speed/g);
 
 rho_39000ft = 0.3164;
-WS_cruise = 0.5*rho_39000ft*(v_cruise*ft2m)^2*sqrt((pi/3)*AspectRatio*OswaldEfficiency*CD0);
+WS_cruise = 0.5*rho_39000ft*(v_cruise^2)*sqrt((pi/3)*AspectRatio_wing*OswaldEfficiency*CD0);
 
 fprintf('(3) W/S for cruise: %.6f N/m^2 = %.6f kg/m^2\n', WS_cruise, WS_cruise/g);
 
@@ -94,10 +92,8 @@ TOP = 400;
 WS_takeoff = TOP * CL_takeoff * TW_takeoff * lb2kg/(ft2m^2) * g;
 fprintf('(4) W/S for takeoff: %.6f N/m^2 = %.6f kg/m^2\n', WS_takeoff, WS_takeoff/g);
 
-rho_loiter = 0.46;
-WeightLoiter = W_takeoff*W_climb*W_cruise*W_loiter*MaximumTakeoffWeight_est;
+rho_loiter = 0.5489;
+WeightLoiter = W_takeoff*W_climb*W_cruise*W_loiter*MaximumTakeoffWeight;
 v_loiter = ((4*CDi*(WeightLoiter*g)^2)/(rho_loiter^2*CD0*PlanformArea_wing^2))^0.25;
-WS_loiter = 0.5*rho_loiter*(v_loiter^2)*sqrt(pi*AspectRatio*OswaldEfficiency*CD0);
+WS_loiter = 0.5*rho_loiter*(v_loiter^2)*sqrt(pi*AspectRatio_wing*OswaldEfficiency*CD0);
 fprintf('(5) W/S for loiter: %.6f N/m^2 = %.6f kg/m^2\n', WS_loiter, WS_loiter/g);
-
-%}

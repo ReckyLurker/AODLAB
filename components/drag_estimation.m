@@ -115,7 +115,7 @@ PlugLength = 1.21; % in m (lp)
 PlugDiameter = 1.24; % in m (Dp) 
 
 % Estimates
-Q_nacelle = 1.5; % Interference Factor for Nacelle 
+Q_nacelle = 1.3; % Interference Factor for Nacelle 
 
 % Computed Quantities
 WettedArea_cowl = CowlLength*CowlDiameter*(2 + 0.35*(FanLocation/CowlLength) + 0.8*(FanLocation/CowlLength)*(CowlDiameter_inlet/CowlDiameter) + 1.15*(1 - (FanLocation/CowlLength))*(CowlDiameter_outlet/CowlDiameter));
@@ -149,4 +149,4 @@ fprintf('(3) Vertical Tail: CD0 = %.6f CDi = %.6f (%.3f %%)\n', CD0_vt_local*(Pl
 fprintf('(4) Fuselage: CD0 = %.6f (%.3f %%)\n', CD0_fuselage_local*(FuselageArea/PlanformArea_wing), frac_fuselage);
 fprintf('(5) Nacelle: CD0 = %.6f (%.3f %%)\n', CD0_nacelle_local*(NacelleSurfaceArea/PlanformArea_wing), frac_nacelle);
 fprintf('Total: CD0 = %.6f CDi = %.3f\n', CD0, CDi);
-fprintf('Drag Contribution of HT and VT neglected.\n\n');
+fprintf('Induced Drag Contribution of HT and VT neglected.\n\n');
