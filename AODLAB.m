@@ -23,16 +23,16 @@ kg2lb = 1/lb2kg;
 % Constants 
 g = 9.81; % in m/s^2 
 OswaldEfficiency = 0.8;
-v_sound = 968.1 * ft2m; % (in m/s) [at 39000 ft]
+v_sound = 981.6273 * ft2m; % (in m/s) [at 33000 ft]
 rho_0ft = 1.225;
 C_fe = 0.003; % skin friction coefficient of flat plate
 
 % Design Parameters 
-v_cruise = 755.1 * ft2m; % (in m/s)
+v_cruise = 795.1181 * ft2m; % (in m/s)
 LoiterTime = 30 * min2sec; % (in sec)
 ReserveFuelFraction = 0.06; % percentage of extra fuel
 Range = 5000 * km2m; % (in m) 
-Altitude = 39000 * ft2m; % (in m)
+Altitude = 33000 * ft2m; % (in m)
 SpecificFuelConsumption_Cruise = 0.5 * sec2hr; % (in (kg/sec)/ kg for a high bypass turbofan engine)
 SpecificFuelConsumption_Loiter = 0.4 * sec2hr; % (in (kg/sec)/ kg for a high bypass turbofan engine)
 
@@ -80,20 +80,20 @@ fprintf('\nW/S Estimation:\n');
 fprintf('(1) W/S from stall speed with flaps: %.6f N/m^2 = %.6f kg/m^2\n', WS_stall_speed_with_flaps, WS_stall_speed_with_flaps/g);
 fprintf('(2) W/S from stall speed without flaps: %.6f N/m^2 = %.6f kg/m^2\n', WS_stall_speed, WS_stall_speed/g);
 
-rho_39000ft = 0.3164;
-WS_cruise = 0.5*rho_39000ft*(v_cruise^2)*sqrt((pi/3)*AspectRatio_wing*OswaldEfficiency*CD0);
+rho_33000ft = 0.3345*rho_0ft;
+WS_cruise = 0.5*rho_33000ft*(v_cruise^2)*sqrt((pi/3)*AspectRatio_wing*OswaldEfficiency*CD0);
 
-fprintf('(3) W/S for cruise: %.6f N/m^2 = %.6f kg/m^2\n', WS_cruise, WS_cruise/g);
+fprintf('(3) W/S for cruise: %.6f N/m^2 = %.6f kg/m^2\n', WS_cruise/W20, WS_cruise/(g*W20));
 
 CL_takeoff = CL_max_with_flaps / (1.1*1.1);
 V_liftoff = 1.1*v_stall_with_flaps;
-TOP = 400;
+TOP = 374;
 
 WS_takeoff = TOP * CL_takeoff * TW_takeoff * lb2kg/(ft2m^2) * g;
 fprintf('(4) W/S for takeoff: %.6f N/m^2 = %.6f kg/m^2\n', WS_takeoff, WS_takeoff/g);
 
-rho_loiter = 0.5489;
+rho_loiter = 0.4481*rho_0ft;
 WeightLoiter = W_takeoff*W_climb*W_cruise*W_loiter*MaximumTakeoffWeight;
 v_loiter = ((4*CDi*(WeightLoiter*g)^2)/(rho_loiter^2*CD0*PlanformArea_wing^2))^0.25;
 WS_loiter = 0.5*rho_loiter*(v_loiter^2)*sqrt(pi*AspectRatio_wing*OswaldEfficiency*CD0);
-fprintf('(5) W/S for loiter: %.6f N/m^2 = %.6f kg/m^2\n', WS_loiter, WS_loiter/g);
+fprintf('(5) W/S for loiter: %.6f N/m^2 = %.6f kg/m^2\n', WS_loiter/(W30), WS_loiter/(g*W30));

@@ -1,6 +1,6 @@
 % Design Choices 
 W_crew = 7 * 100; % in kg  
-W_payload = 23500; % in kg 
+W_payload = 22800; % in kg 
 
 % Empty Weight Fraction Model 
 W_empty_model = @(A, C, K_vs, W0) A * W0^C * K_vs; % We/W0 model
