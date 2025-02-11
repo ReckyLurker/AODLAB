@@ -29,7 +29,7 @@ C_fe = 0.003; % skin friction coefficient of flat plate
 
 % Design Parameters 
 v_cruise = 795.1181 * ft2m; % (in m/s)
-LoiterTime = 30 * min2sec; % (in sec)
+LoiterTime = 20 * min2sec; % (in sec)
 ReserveFuelFraction = 0.06; % percentage of extra fuel
 Range = 5000 * km2m; % (in m) 
 Altitude = 33000 * ft2m; % (in m)
@@ -87,12 +87,12 @@ fprintf('(3) W/S for cruise: %.6f N/m^2 = %.6f kg/m^2\n', WS_cruise/W20, WS_crui
 
 CL_takeoff = CL_max_with_flaps / (1.1*1.1);
 V_liftoff = 1.1*v_stall_with_flaps;
-TOP = 374;
+TOP = 368;
 
 WS_takeoff = TOP * CL_takeoff * TW_takeoff * lb2kg/(ft2m^2) * g;
 fprintf('(4) W/S for takeoff: %.6f N/m^2 = %.6f kg/m^2\n', WS_takeoff, WS_takeoff/g);
 
-rho_loiter = 0.4481*rho_0ft;
+rho_loiter = 0.515*rho_0ft;
 WeightLoiter = W_takeoff*W_climb*W_cruise*W_loiter*MaximumTakeoffWeight;
 v_loiter = ((4*CDi*(WeightLoiter*g)^2)/(rho_loiter^2*CD0*PlanformArea_wing^2))^0.25;
 WS_loiter = 0.5*rho_loiter*(v_loiter^2)*sqrt(pi*AspectRatio_wing*OswaldEfficiency*CD0);
